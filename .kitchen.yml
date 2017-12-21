@@ -1,0 +1,70 @@
+---
+driver:
+  name: exec
+
+provisioner:
+  name: ansible_playbook
+  hosts:
+    - apache-servers
+    - xyz
+  ansible_connection: local
+  ansible_verbose: true
+  ansible_verbosity: 4
+  ansible_apt_repo: ppa:ansible/ansible-2.1
+  require_chef_for_busser: false
+  requirements_path: requirements.yml
+#  custom_pre_install_command: echo '** custom pre install***'
+#  custom_post_install_command: echo '** custom post install***'
+#  custom_pre_play_command: echo '** custom pre play***'
+#  custom_post_play_command: echo '** custom post play***'
+#  idempotency_test: true
+#  extra_vars_file: 'group_vars/production.yml'
+#  extra_vars:
+#    test: testing
+#  additional_ssh_private_keys:
+#    - ../id_rsa
+#  recursive_additional_copy_path:
+#    - data # tomcat_spec2.rb # C:/repository/ansible_vagrant_repo/data/
+#  kerberos_conf_file: ../ansible_windows_repo/kr.conf
+
+transport:
+  max_ssh_sessions: 6
+
+platforms:
+  - name: centos-7.2
+    driver_plugin: exec
+    provisioner:
+      require_pip: true
+  - name: puppetlabs/ubuntu-16.04-64-nocm
+    driver_plugin: exec
+  - name: ubuntu-16.04
+    provisioner:
+      ansible_connection: local
+      ansible_host_key_checking: false
+      ansible_version: 2.2.1.0
+      idempotency_test: true
+      require_ansible_repo: false
+      require_chef_for_busser: false
+      require_ruby_for_busser: false
+      require_pip: true
+      requirements_path: requirements.yml
+
+#verifier:
+#  name: serverspec
+#  sudo_path: true
+
+suites:
+  - name: ansible
+    driver_config:
+      network:
+#      - ['private_network', { type: 'dhcp' }]
+#      - [ 'private_network', { ip: '172.28.128.6' } ]
+#      - [ 'private_network', { ip: '127.0.0.1' } ]
+#      - ['public_network']
+#    verifier:
+#      default_pattern: true
+#      bundler_path: '/usr/local/bin'
+#      rspec_path: '/usr/local/bin'
+#      env_vars:
+#        TARGET_HOST: 127.0.0.1
+#        TARGET_PORT: 2222
